@@ -38,7 +38,7 @@ services:
       - 9000
     networks:
       - local-network
-    command: sh -c "composer install"
+    command: sh -c "composer install && php-fpm"
     
   redis:
     image: redis:7.2-alpine
@@ -83,7 +83,7 @@ services:
       - local-network
     stdin_open: true
     tty: true
-    command: sh -c "chown -R 1000:1000 /var/www/html && npm install && npm run build"
+    command: sh -c "npm install && npm run build && tail -f /dev/null"
 
   minio:
     image: minio/minio
@@ -98,7 +98,7 @@ services:
       - "9010:9000" # Puerto para la API S3
       - "9011:9001" # Puerto para la consola de administración
     entrypoint: sh
-    command: -c 'chown -R 1000:1000 /data && mkdir -p /data/project && minio server /data --console-address ":9001"'
+    command: -c 'tail -f /dev/null'
     networks:
       - local-network
     
