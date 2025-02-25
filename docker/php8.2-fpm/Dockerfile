@@ -11,9 +11,14 @@ RUN apk add --no-cache \
     bash \
     curl \
     tar \
+    autoconf \
     openssh-client \
     git \
-    rsync
+    rsync \
+    gcc \
+    g++ \
+    make
+
 
 # Install Composer manually
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -22,6 +27,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN docker-php-ext-install pdo_mysql && \
     docker-php-ext-enable pdo_mysql && \
     rm -rf /tmp/*
+
+# Install Redis extension
+RUN pecl install redis && docker-php-ext-enable redis
 
 # Clean up
 RUN rm -rf /tmp/*
