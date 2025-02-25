@@ -1,0 +1,40 @@
+FROM php:8.2-fpm-alpine3.20
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+# Force UTC as server time
+RUN echo "UTC" > /etc/timezone
+
+# Install essential tools
+RUN apk add --no-cache \
+    ca-certificates \
+    bash \
+    curl \
+    tar \
+    openssh-client \
+    git \
+    rsync
+
+# Install Composer manually
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install pdo
+RUN docker-php-ext-install pdo_mysql && \
+    docker-php-ext-enable pdo_mysql && \
+    rm -rf /tmp/*
+
+# Clean up
+RUN rm -rf /tmp/*
+
+# Create user
+RUN addgroup -g $GROUP_ID project && \
+    adduser -G project -u $USER_ID project -D
+
+# Setup Composer
+RUN mkdir /home/project/.composer && \
+    chown $USER_ID:$GROUP_ID /home/project/.composer
+
+
+# Prepare psysh config directory
+RUN mkdir -p /home/project/.config/psysh && \
+    chown -R $USER_ID:$GROUP_ID /home/project/.config
