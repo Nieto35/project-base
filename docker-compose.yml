@@ -98,7 +98,7 @@ services:
       - "9010:9000" # Puerto para la API S3
       - "9011:9001" # Puerto para la consola de administración
     entrypoint: sh
-    command: -c 'tail -f /dev/null'
+    command: -c 'mkdir -p /data/project && minio server /data --console-address ":9001"'
     networks:
       - local-network
     
