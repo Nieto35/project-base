@@ -47,6 +47,6 @@ RUN mkdir /home/project/.composer && \
 RUN mkdir -p /home/project/.config/psysh && \
     chown -R $USER_ID:$GROUP_ID /home/project/.config
 
-# Set permissions for MinIO directory
-RUN mkdir -p /data && \
-    chmod -R 777 /data
+# Set permissions for /var/www/html
+RUN chown -R $USER_ID:$GROUP_ID /var/www/html && \
+    chmod -R 777 /var/www/html
