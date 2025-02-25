@@ -46,3 +46,7 @@ RUN mkdir /home/project/.composer && \
 # Prepare psysh config directory
 RUN mkdir -p /home/project/.config/psysh && \
     chown -R $USER_ID:$GROUP_ID /home/project/.config
+
+# Set permissions for MinIO directory
+RUN mkdir -p /data && \
+    chmod -R 777 /data
