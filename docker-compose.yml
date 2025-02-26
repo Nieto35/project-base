@@ -31,6 +31,9 @@ services:
       dockerfile: docker/php8.2-fpm/Dockerfile
     user: 1000:1000
     container_name: project_php
+    depends_on:
+        - mariadb
+        - redis
     volumes:
       - ${HOST_ROOT}/www/project:/var/www/html
       - ${HOST_ROOT}/www/project/docker/php8.2-fpm/conf.d/99-xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini
@@ -38,8 +41,8 @@ services:
       - 9000
     networks:
       - local-network
-    command: sh -c "composer install && php-fpm"
-    
+    command: sh -c "/var/www/html/wait-for-it.sh project_mariadb:3306 -- composer install && supervisord -c /etc/supervisor/conf.d/supervisord.conf"
+
   redis:
     image: redis:7.2-alpine
     container_name: project_redis
@@ -101,7 +104,7 @@ services:
     command: -c 'mkdir -p /data/project && minio server /data --console-address ":9001"'
     networks:
       - local-network
-    
+
 
 networks:
   local-network:

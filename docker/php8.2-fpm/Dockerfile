@@ -17,7 +17,8 @@ RUN apk add --no-cache \
     rsync \
     gcc \
     g++ \
-    make
+    make \
+    supervisor
 
 
 # Install Composer manually
@@ -52,3 +53,9 @@ RUN mkdir /home/project/.composer && \
 RUN mkdir -p /home/project/.config/psysh && \
     chown -R $USER_ID:$GROUP_ID /home/project/.config
 
+# Copy the supervisord configuration file
+COPY --chown=$USER_ID:$GROUP_ID ./docker/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Create the necessary directories for supervisor logs
+RUN mkdir -p /var/log/supervisor && \
+    chown -R $USER_ID:$GROUP_ID /var/log/supervisor
