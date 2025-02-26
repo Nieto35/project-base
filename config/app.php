@@ -51,7 +51,7 @@ return [
     | the application so that it's available within Artisan commands.
     |
     */
-
+    'domain' => env('APP_DOMAIN', 'localhost'),
     'url' => env('APP_URL', 'http://localhost'),
 
     /*
