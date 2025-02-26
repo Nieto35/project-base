@@ -28,6 +28,11 @@ RUN docker-php-ext-install pdo_mysql && \
     docker-php-ext-enable pdo_mysql && \
     rm -rf /tmp/*
 
+# Install pcntl extension
+RUN docker-php-ext-install pcntl && \
+    docker-php-ext-enable pcntl && \
+    rm -rf /tmp/*
+
 # Install Redis extension
 RUN pecl install redis && docker-php-ext-enable redis
 
