@@ -2,13 +2,10 @@
 
 namespace Project\Auth\Infrastructure\Mail\Mailable;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
 
 class ValidateEmailMailable extends Mailable
 {
-    use Queueable, SerializesModels;
 
     public string $name;
     public string $email;
@@ -42,6 +39,5 @@ class ValidateEmailMailable extends Mailable
                 'name' => $this->name,
                 'url' => $this->url,
             ]);
-
     }
 }
